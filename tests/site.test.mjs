@@ -41,6 +41,24 @@ test('deployment config uses PM2 cluster mode and keeps Caddy as reverse proxy',
   assert.match(docs, /healthz/);
 });
 
+test('model chips tilt toward the pointer and reset on leave, with reduced-motion support', async () => {
+  const [interactions, styles] = await Promise.all([
+    read('app/site-interactions.tsx'),
+    read('app/globals.css'),
+  ]);
+  assert.match(interactions, /pointermove/);
+  assert.match(interactions, /--tilt-x/);
+  assert.match(interactions, /prefers-reduced-motion/);
+  assert.match(styles, /\.models span:not\(\.more\):hover/);
+  assert.match(styles, /perspective\(/);
+});
+
+test('pricing cards subtly emphasize the hovered card and de-emphasize its siblings', async () => {
+  const styles = await read('app/globals.css');
+  assert.match(styles, /\.plans:has\(\.plan:hover\) \.plan:not\(:hover\)/);
+  assert.match(styles, /\.plan:hover/);
+});
+
 test('package scripts expose reproducible build, test and type-check gates', async () => {
   const pkg = JSON.parse(await read('package.json'));
   assert.equal(pkg.scripts.build, 'next build');

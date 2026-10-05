@@ -3,6 +3,7 @@ node_modules/
 .next-cache/
 out/
 coverage/
+*.tsbuildinfo
 *.log
 .DS_Store
 .env

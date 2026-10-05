@@ -10,7 +10,7 @@ export default defineConfig([
     languageOptions: {
       parser: tsParser,
       parserOptions: { ecmaFeatures: { jsx: true } },
-      globals: { process: 'readonly', document: 'readonly', window: 'readonly', setInterval: 'readonly', clearInterval: 'readonly', URL: 'readonly', HTMLFormElement: 'readonly', HTMLElement: 'readonly', HTMLButtonElement: 'readonly', Event: 'readonly', TouchEvent: 'readonly', SubmitEvent: 'readonly' },
+      globals: { process: 'readonly', document: 'readonly', window: 'readonly', setInterval: 'readonly', clearInterval: 'readonly', URL: 'readonly', HTMLFormElement: 'readonly', HTMLElement: 'readonly', HTMLButtonElement: 'readonly', Event: 'readonly', PointerEvent: 'readonly', TouchEvent: 'readonly', SubmitEvent: 'readonly' },
     },
     plugins: { '@typescript-eslint': tsPlugin },
     rules: { ...tsPlugin.configs.recommended.rules },
