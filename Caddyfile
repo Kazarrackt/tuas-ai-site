@@ -1,0 +1,18 @@
+tuas.ai, www.tuas.ai {
+	encode zstd gzip
+
+	@www host www.tuas.ai
+	redir @www https://tuas.ai{uri} permanent
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	reverse_proxy 127.0.0.1:3000 {
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Real-IP {remote_host}
+	}
+}
