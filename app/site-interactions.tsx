@@ -4,14 +4,13 @@ import { useEffect } from 'react';
 
 export default function SiteInteractions() {
   useEffect(() => {
-    const box = document.getElementById('offer');
+    const modelCards = Array.from(document.querySelectorAll<HTMLElement>('.models > .model-card'));
     const form = document.getElementById('lead') as HTMLFormElement | null;
-    if (!box || !form) return;
-
-    const modelCards = Array.from(document.querySelectorAll<HTMLElement>('.models span'));
-    const slides = Array.from(box.querySelectorAll<HTMLElement>('.slide'));
-    const dots = Array.from(box.querySelectorAll<HTMLButtonElement>('.dot'));
-    if (slides.length === 0 || dots.length !== slides.length) return;
+    const box = document.getElementById('offer');
+    if (!form && modelCards.length === 0 && !box) return;
+    const slides = box ? Array.from(box.querySelectorAll<HTMLElement>('.slide')) : [];
+    const dots = box ? Array.from(box.querySelectorAll<HTMLButtonElement>('.dot')) : [];
+    if (box && (slides.length === 0 || dots.length !== slides.length)) return;
 
     let index = 0;
     let timer: ReturnType<typeof setInterval> | undefined;
@@ -41,6 +40,14 @@ export default function SiteInteractions() {
     const onModelBlur = (event: Event) => {
       resetModelCard(event.currentTarget as HTMLElement);
     };
+    const onModelFocus = (event: Event) => {
+      if (reducedMotion) return;
+      const card = event.currentTarget as HTMLElement;
+      card.style.setProperty('--tilt-x', '4deg');
+      card.style.setProperty('--tilt-y', '-4deg');
+      card.style.setProperty('--lift', '-3px');
+      card.classList.add('is-tilting');
+    };
 
     const show = (next: number) => {
       index = (next + slides.length) % slides.length;
@@ -58,7 +65,7 @@ export default function SiteInteractions() {
       timer = undefined;
     };
     const start = () => {
-      if (!reducedMotion && !timer) timer = setInterval(() => show(index + 1), 4500);
+      if (box && !reducedMotion && !timer) timer = setInterval(() => show(index + 1), 4500);
     };
     const onDotClick = (event: Event) => {
       const dot = event.currentTarget as HTMLButtonElement;
@@ -81,6 +88,7 @@ export default function SiteInteractions() {
     };
     const onSubmit = (event: SubmitEvent) => {
       event.preventDefault();
+      if (!form) return;
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -93,16 +101,17 @@ export default function SiteInteractions() {
       card.addEventListener('pointermove', onModelPointerMove);
       card.addEventListener('pointerleave', onModelPointerLeave);
       card.addEventListener('pointercancel', onModelPointerLeave);
+      card.addEventListener('focus', onModelFocus);
       card.addEventListener('blur', onModelBlur);
     });
     dots.forEach((dot) => dot.addEventListener('click', onDotClick));
-    box.addEventListener('mouseenter', stop);
-    box.addEventListener('mouseleave', start);
-    box.addEventListener('focusin', stop);
-    box.addEventListener('focusout', start);
-    box.addEventListener('touchstart', onTouchStart, { passive: true });
-    box.addEventListener('touchend', onTouchEnd, { passive: true });
-    form.addEventListener('submit', onSubmit);
+    box?.addEventListener('mouseenter', stop);
+    box?.addEventListener('mouseleave', start);
+    box?.addEventListener('focusin', stop);
+    box?.addEventListener('focusout', start);
+    box?.addEventListener('touchstart', onTouchStart, { passive: true });
+    box?.addEventListener('touchend', onTouchEnd, { passive: true });
+    form?.addEventListener('submit', onSubmit);
     start();
 
     return () => {
@@ -112,16 +121,17 @@ export default function SiteInteractions() {
         card.removeEventListener('pointermove', onModelPointerMove);
         card.removeEventListener('pointerleave', onModelPointerLeave);
         card.removeEventListener('pointercancel', onModelPointerLeave);
+        card.removeEventListener('focus', onModelFocus);
         card.removeEventListener('blur', onModelBlur);
       });
       dots.forEach((dot) => dot.removeEventListener('click', onDotClick));
-      box.removeEventListener('mouseenter', stop);
-      box.removeEventListener('mouseleave', start);
-      box.removeEventListener('focusin', stop);
-      box.removeEventListener('focusout', start);
-      box.removeEventListener('touchstart', onTouchStart);
-      box.removeEventListener('touchend', onTouchEnd);
-      form.removeEventListener('submit', onSubmit);
+      box?.removeEventListener('mouseenter', stop);
+      box?.removeEventListener('mouseleave', start);
+      box?.removeEventListener('focusin', stop);
+      box?.removeEventListener('focusout', start);
+      box?.removeEventListener('touchstart', onTouchStart);
+      box?.removeEventListener('touchend', onTouchEnd);
+      form?.removeEventListener('submit', onSubmit);
     };
   }, []);
 

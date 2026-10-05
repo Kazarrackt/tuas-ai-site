@@ -14,6 +14,9 @@ test('site renders the original landing page as server-rendered markup', async (
   assert.match(content, /Frontier-level AI models/);
   assert.match(content, /id=\\?"pricing/);
   assert.match(content, /id=\\?"start/);
+  assert.equal((content.match(/model-card/g) ?? []).length, 5);
+  assert.match(content, /GLM/);
+  assert.match(content, /class=\\?"model-card/);
 });
 
 test('site retains progressive enhancement and operational health endpoint', async () => {
@@ -63,5 +66,7 @@ test('package scripts expose reproducible build, test and type-check gates', asy
   const pkg = JSON.parse(await read('package.json'));
   assert.equal(pkg.scripts.build, 'next build');
   assert.equal(pkg.scripts.test, 'node --test');
+  assert.equal(pkg.scripts.predev, 'node scripts/sync-page-content.mjs');
+  assert.equal(pkg.scripts.prebuild, 'node scripts/sync-page-content.mjs');
   assert.equal(pkg.scripts.typecheck, 'tsc --noEmit');
 });

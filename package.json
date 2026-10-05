@@ -9,6 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1 --port 3000",
+    "predev": "node scripts/sync-page-content.mjs",
+    "prebuild": "node scripts/sync-page-content.mjs",
     "test": "node --test",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."

@@ -19,5 +19,5 @@ export default defineConfig([
     files: ['**/*.{js,mjs,cjs}'],
     languageOptions: { globals: { process: 'readonly', module: 'readonly', __dirname: 'readonly', console: 'readonly', setInterval: 'readonly', clearInterval: 'readonly', document: 'readonly', window: 'readonly', TouchEvent: 'readonly', SubmitEvent: 'readonly', Event: 'readonly', HTMLFormElement: 'readonly', HTMLButtonElement: 'readonly', HTMLElement: 'readonly', ReturnType: 'readonly' } },
   },
-  globalIgnores(['.next/**', 'node_modules/**', 'next-env.d.ts', 'tests/**']),
+  globalIgnores(['.next/**', 'node_modules/**', 'next-env.d.ts', 'tests/**', 'scripts/**']),
 ]);
