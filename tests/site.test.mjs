@@ -25,7 +25,7 @@ test('site retains progressive enhancement and operational health endpoint', asy
     read('app/healthz/route.ts'),
     read('next.config.ts'),
   ]);
-  assert.match(interaction, /prefers-reduced-motion/);
+  assert.match(interaction, /touchstart/);
   assert.match(interaction, /checkValidity/);
   assert.match(route, /NextResponse/);
   assert.match(config, /standalone/);
@@ -44,16 +44,19 @@ test('deployment config uses PM2 cluster mode and keeps Caddy as reverse proxy',
   assert.match(docs, /healthz/);
 });
 
-test('model chips tilt toward the pointer and reset on leave, with reduced-motion support', async () => {
-  const [interactions, styles] = await Promise.all([
-    read('app/site-interactions.tsx'),
+test('model chips scale on hover without hiding logos', async () => {
+  const [content, styles, interactions] = await Promise.all([
+    read('app/page-content.ts'),
     read('app/globals.css'),
+    read('app/site-interactions.tsx'),
   ]);
-  assert.match(interactions, /pointermove/);
-  assert.match(interactions, /--tilt-x/);
-  assert.match(interactions, /prefers-reduced-motion/);
-  assert.match(styles, /\.models span:not\(\.more\):hover/);
-  assert.match(styles, /perspective\(/);
+  assert.match(styles, /\.models \.model-card:hover/);
+  assert.match(styles, /transform:\s*scale\(1\.04\)/);
+  assert.match(styles, /\.models \.model-card \.mlogo/);
+  const decodedContent = content.slice(content.indexOf('"') + 1, content.lastIndexOf('"'));
+  assert.ok(decodedContent.indexOf('>Qwen</span>') < decodedContent.indexOf('>Kimi</span>'));
+  assert.ok(decodedContent.indexOf('>Gemma</span>') < decodedContent.indexOf('>GLM</span>'));
+  assert.doesNotMatch(interactions, /pointermove|--tilt-x|--tilt-y/);
 });
 
 test('pricing cards subtly emphasize the hovered card and de-emphasize its siblings', async () => {

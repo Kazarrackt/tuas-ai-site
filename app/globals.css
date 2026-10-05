@@ -134,11 +134,14 @@ section.soft { background: var(--soft); }
 .models { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
 .models span { background: var(--ground); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 32px; font-weight: 700; font-size: 20px; color: var(--ink); }
 .models span { display: inline-flex; align-items: center; gap: 12px; }
-.models span:not(.more) { --tilt-x: 0deg; --tilt-y: 0deg; --lift: 0px; transform: perspective(700px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift)); transform-style: preserve-3d; transition: transform .16s ease-out, box-shadow .2s ease; will-change: transform; }
-.models span:not(.more):hover, .models span:not(.more).is-tilting { box-shadow: 0 12px 22px rgba(27, 27, 32, .17); }
-.models span.more { transition: transform .2s ease, box-shadow .2s ease; }
-.models span.more:hover { transform: translateY(-3px); box-shadow: 0 10px 18px rgba(146, 0, 186, .14); }
-.models .mlogo { width: 30px; height: 30px; flex: none; }
+.models .model-card { position: relative; z-index: 0; transform: scale(1); transform-origin: center; transition: transform .18s ease, box-shadow .18s ease; backface-visibility: visible; }
+.models .model-card:hover, .models .model-card:focus-visible { z-index: 1; transform: scale(1.04); box-shadow: 0 10px 20px rgba(27, 27, 32, .16); }
+.models .model-card .mlogo { display: block; width: 30px; height: 30px; flex: 0 0 30px; opacity: 1; visibility: visible; }
+.models .model-card .mtile { display: grid; visibility: visible; opacity: 1; flex: 0 0 30px; }
+.models .model-card .mlogo-in { display: block; visibility: visible; opacity: 1; width: 22px; height: 22px; }
+.models .model-card.more { background: var(--lilac); box-shadow: none; color: var(--purple); font-size: 17px; }
+.models .model-card.more:hover, .models .model-card.more:focus-visible { box-shadow: 0 8px 16px rgba(146, 0, 186, .14); }
+@media (hover: none) { .models .model-card:hover { transform: none; } }
 .mtile { width: 30px; height: 30px; border-radius: 7px; background: #000; display: grid; place-items: center; flex: none; }
 .mlogo-in { width: 22px; height: 22px; }
 .models span.more { background: var(--lilac); box-shadow: none; color: var(--purple); font-size: 17px; display: flex; align-items: center; }
@@ -201,9 +204,8 @@ footer .wrap { padding-block: 40px; display: grid; gap: 24px; }
   .models span { padding: 14px 22px; font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .btn, .slide, .slide.is-on, .dot, .models span, .plan { transition: none; }
-  .models span:not(.more) { transform: none; }
-  .plans:has(.plan:hover) .plan:not(:hover), .plan:hover, .plan:focus-within, .models span.more:hover { transform: none; }
+  .btn, .slide, .slide.is-on, .dot, .models .model-card, .plan { transition: none; }
+  .models .model-card:hover, .models .model-card:focus-visible, .plans:has(.plan:hover) .plan:not(:hover), .plan:hover, .plan:focus-within { transform: none; }
   html { scroll-behavior: auto; }
 }
 

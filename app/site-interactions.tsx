@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 
 export default function SiteInteractions() {
   useEffect(() => {
-    const modelCards = Array.from(document.querySelectorAll<HTMLElement>('.models > .model-card'));
     const form = document.getElementById('lead') as HTMLFormElement | null;
     const box = document.getElementById('offer');
-    if (!form && modelCards.length === 0 && !box) return;
+    if (!form && !box) return;
+
     const slides = box ? Array.from(box.querySelectorAll<HTMLElement>('.slide')) : [];
     const dots = box ? Array.from(box.querySelectorAll<HTMLButtonElement>('.dot')) : [];
     if (box && (slides.length === 0 || dots.length !== slides.length)) return;
@@ -15,39 +15,6 @@ export default function SiteInteractions() {
     let index = 0;
     let timer: ReturnType<typeof setInterval> | undefined;
     let touchStartX: number | null = null;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const resetModelCard = (card: HTMLElement) => {
-      card.style.removeProperty('--tilt-x');
-      card.style.removeProperty('--tilt-y');
-      card.style.removeProperty('--lift');
-      card.classList.remove('is-tilting');
-    };
-    const onModelPointerMove = (event: PointerEvent) => {
-      if (reducedMotion || event.pointerType === 'touch') return;
-      const card = event.currentTarget as HTMLElement;
-      const bounds = card.getBoundingClientRect();
-      const x = (event.clientX - bounds.left) / bounds.width;
-      const y = (event.clientY - bounds.top) / bounds.height;
-      card.style.setProperty('--tilt-y', `${(x - 0.5) * 10}deg`);
-      card.style.setProperty('--tilt-x', `${(0.5 - y) * 10}deg`);
-      card.style.setProperty('--lift', '-3px');
-      card.classList.add('is-tilting');
-    };
-    const onModelPointerLeave = (event: Event) => {
-      resetModelCard(event.currentTarget as HTMLElement);
-    };
-    const onModelBlur = (event: Event) => {
-      resetModelCard(event.currentTarget as HTMLElement);
-    };
-    const onModelFocus = (event: Event) => {
-      if (reducedMotion) return;
-      const card = event.currentTarget as HTMLElement;
-      card.style.setProperty('--tilt-x', '4deg');
-      card.style.setProperty('--tilt-y', '-4deg');
-      card.style.setProperty('--lift', '-3px');
-      card.classList.add('is-tilting');
-    };
 
     const show = (next: number) => {
       index = (next + slides.length) % slides.length;
@@ -65,7 +32,7 @@ export default function SiteInteractions() {
       timer = undefined;
     };
     const start = () => {
-      if (box && !reducedMotion && !timer) timer = setInterval(() => show(index + 1), 4500);
+      if (box && !timer) timer = setInterval(() => show(index + 1), 4500);
     };
     const onDotClick = (event: Event) => {
       const dot = event.currentTarget as HTMLButtonElement;
@@ -88,22 +55,14 @@ export default function SiteInteractions() {
     };
     const onSubmit = (event: SubmitEvent) => {
       event.preventDefault();
-      if (!form) return;
-      if (!form.checkValidity()) {
-        form.reportValidity();
+      if (!form?.checkValidity()) {
+        form?.reportValidity();
         return;
       }
       form.innerHTML =
         '<div class="thanks" role="status"><h3>Thanks, we have your details.</h3><p>We will be in touch within one business day.</p></div>';
     };
 
-    modelCards.forEach((card) => {
-      card.addEventListener('pointermove', onModelPointerMove);
-      card.addEventListener('pointerleave', onModelPointerLeave);
-      card.addEventListener('pointercancel', onModelPointerLeave);
-      card.addEventListener('focus', onModelFocus);
-      card.addEventListener('blur', onModelBlur);
-    });
     dots.forEach((dot) => dot.addEventListener('click', onDotClick));
     box?.addEventListener('mouseenter', stop);
     box?.addEventListener('mouseleave', start);
@@ -116,14 +75,6 @@ export default function SiteInteractions() {
 
     return () => {
       stop();
-      modelCards.forEach((card) => {
-        resetModelCard(card);
-        card.removeEventListener('pointermove', onModelPointerMove);
-        card.removeEventListener('pointerleave', onModelPointerLeave);
-        card.removeEventListener('pointercancel', onModelPointerLeave);
-        card.removeEventListener('focus', onModelFocus);
-        card.removeEventListener('blur', onModelBlur);
-      });
       dots.forEach((dot) => dot.removeEventListener('click', onDotClick));
       box?.removeEventListener('mouseenter', stop);
       box?.removeEventListener('mouseleave', start);
