@@ -38,7 +38,8 @@ test('deployment config uses PM2 cluster mode and keeps Caddy as reverse proxy',
     read('README.md'),
   ]);
   assert.match(pm2, /exec_mode:\s*['"]cluster['"]/);
-  assert.match(pm2, /instances:\s*['"]max['"]/);
+  // 'max' by default; hosts may pin a fixed worker count instead.
+  assert.match(pm2, /instances:\s*(['"]max['"]|['"]?[1-9]\d*['"]?)\s*,/);
   assert.match(caddy, /reverse_proxy\s+127\.0\.0\.1:3000/);
   assert.ok(docs.includes('pm2 start ecosystem.config.cjs'));
   assert.match(docs, /healthz/);
