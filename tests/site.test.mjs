@@ -87,3 +87,53 @@ test('package scripts expose reproducible build, test and type-check gates', asy
   assert.equal(pkg.scripts.postbuild, 'node scripts/copy-standalone-assets.mjs');
   assert.equal(pkg.scripts.typecheck, 'tsc --noEmit');
 });
+
+test('hero carousel features GLM-5.3 at the pricing-card price instead of Kimi K3', async () => {
+  const content = await read('app/page-content.ts');
+  const hero = content.slice(content.indexOf('id=\\"offer'), content.indexOf('class=\\"pillars'));
+  assert.doesNotMatch(content, /Kimi K3/);
+  assert.match(hero, /GLM-5\.3<\/span>/);
+  assert.doesNotMatch(hero, /class=\\"plan/);
+  assert.equal((content.match(/<article class=\\"plan\\">/g) ?? []).length, 2);
+  assert.match(hero, /1\.40<\/b>/);
+  assert.match(hero, /4\.40<\/b>/);
+  assert.match(hero, /Same price as Z\.ai/);
+  assert.match(hero, /aria-label=\\"Show GLM-5\.3\\"/);
+});
+
+test('footer shows the UEN and links every legal page on all pages', async () => {
+  const [content, company] = await Promise.all([read('app/page-content.ts'), read('app/company.ts')]);
+  const footer = content.slice(content.indexOf('export const siteFooter'));
+  assert.match(footer, /UEN: 202635139W/);
+  assert.match(company, /uen: '202635139W'/);
+  for (const path of ['privacy', 'terms', 'ai-governance']) {
+    assert.match(footer, new RegExp(`href=\\\\"${path}\\\\"`));
+    const page = await read(`app/${path}/page.tsx`);
+    assert.match(page, new RegExp(`legalMetadata\\(\\s*'/${path}'`));
+  }
+  assert.doesNotMatch(content.slice(content.indexOf('export const siteHeader')), /href=\\"#/);
+});
+
+test('policies state the AI governance commitments', async () => {
+  const [governance, privacy] = await Promise.all([read('app/ai-governance/page.tsx'), read('app/privacy/page.tsx')]);
+  assert.match(governance, /NVIDIA GPU accelerators/);
+  assert.match(governance, /Hugging Face/);
+  assert.match(governance, /never train/);
+  assert.match(privacy, /PDPA/);
+  assert.match(privacy, /Data Protection\s+Officer/);
+});
+
+test('SEO and answer-engine metadata are published', async () => {
+  const [layout, robots, sitemap, llms] = await Promise.all([
+    read('app/layout.tsx'),
+    read('app/robots.ts'),
+    read('app/sitemap.ts'),
+    read('public/llms.txt'),
+  ]);
+  assert.match(layout, /application\/ld\+json/);
+  assert.match(layout, /propertyID: 'UEN'/);
+  assert.match(layout, /canonical: '\/'/);
+  assert.match(robots, /sitemap\.xml/);
+  assert.match(sitemap, /legalPages/);
+  assert.match(llms, /GLM-5\.3 \$1\.40 \/ \$4\.40/);
+});

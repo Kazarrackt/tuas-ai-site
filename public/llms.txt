@@ -1,0 +1,17 @@
+# Tuas AI Model API
+
+> One OpenAI-compatible API for frontier-level AI models, hosted in Singapore, at the same price as the model vendor. Launching soon.
+
+- Inference runs on certified, physical NVIDIA GPU accelerators, on premises, owned and operated by Tuas AI in Singapore.
+- Prompts, context and outputs are not retained after the session and are never used to train any model.
+- Model weights are sourced from Hugging Face.
+- Prices (USD per 1M tokens, input / output, as at September 2026): DeepSeek V4.1 Flash $0.30 / $1.20; GLM-5.3 $1.40 / $4.40.
+- Switching: change the OpenAI client base URL to https://api.tuas.ai/v1 and use a Tuas AI API key.
+- Operator: Tuas AI, a Singapore company (UEN 202635139W), 1 Kaki Bukit View, #02-10, Techview, Singapore 415941. Privacy: privacy@tuas.ai. Abuse: abuse@tuas.ai.
+
+## Pages
+
+- [Home](https://tuas.ai/): models, pricing, use cases and data commitments
+- [Privacy Policy](https://tuas.ai/privacy): personal data handling under Singapore's PDPA
+- [Terms of Use](https://tuas.ai/terms): terms for the website and API
+- [AI Governance Policy](https://tuas.ai/ai-governance): infrastructure, model sourcing and data commitments

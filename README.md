@@ -88,6 +88,8 @@ The page is in pre-launch mode: no buttons and no contact form. The full version
 ## Project structure
 
 - `app/` — Next.js App Router, page, metadata, health endpoint, and client interactions
+- `app/privacy`, `app/terms`, `app/ai-governance` — legal pages, sharing the header and footer from `index.html`; company details live in `app/company.ts`
+- `app/robots.ts`, `app/sitemap.ts`, `app/opengraph-image.tsx`, `public/llms.txt` — SEO and answer-engine metadata; JSON-LD structured data is in `app/layout.tsx`
 - `public/assets/` — site logo and favicon
 - `tests/` — project and deployment contract checks
 - `ecosystem.config.cjs` — PM2 cluster application definition
