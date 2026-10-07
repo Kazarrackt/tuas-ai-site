@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tuas AI Model API | Frontier-level AI models hosted in Singapore</title>
-<meta name="description" content="One OpenAI-compatible API for frontier-level AI models, hosted in Singapore. Same price as the model vendor, with prompts, outputs and inference kept onshore.">
+<title>Tuas AI Model API | Launching soon</title>
+<meta name="description" content="Tuas AI Model API is launching soon. One OpenAI-compatible API for frontier-level AI models, hosted in Singapore, at the same price as the model vendor.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -155,9 +155,10 @@ section.soft { background: var(--soft); }
 .sov p { color: var(--muted); margin-top: 6px; }
 
 /* CTA */
-.cta-band { background: var(--purple); color: #fff; border-radius: 12px; padding: 48px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.cta-band { background: var(--purple); color: #fff; border-radius: 12px; padding: 56px; display: grid; justify-items: center; text-align: center; }
 .cta-band > * { min-width: 0; }
-.cta-band h2 { color: #fff; font-size: 40px; line-height: 1.1; }
+.cta-band h2 { color: #fff; font-size: 40px; line-height: 1.1; margin-top: 18px; }
+.cta-band h2 .y { color: var(--yellow); }
 .cta-band .lede { margin-top: 12px; font-size: 18px; max-width: 36ch; }
 .steps { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 14px; }
 .steps li { display: flex; gap: 12px; align-items: baseline; }
@@ -215,7 +216,6 @@ footer .wrap { padding-block: 40px; display: grid; gap: 24px; }
       <a href="#pricing">Pricing</a>
       <a href="#build">Use cases</a>
       <a href="#sovereign">Data</a>
-      <a class="btn" href="#start">Get API access</a>
     </nav>
   </div>
 </header>
@@ -226,12 +226,8 @@ footer .wrap { padding-block: 40px; display: grid; gap: 24px; }
       <div class="banner">
         <div>
           <span class="strip">Model API · Hosted in Singapore</span>
-          <h1>Frontier-level AI models, hosted in <span class="y">Singapore.</span></h1>
-          <p class="lede">One OpenAI-compatible API. Your prompts, outputs and inference stay in Singapore.</p>
-          <div class="ctas">
-            <a class="btn btn-solid" href="#start">Get API access</a>
-            <a class="btn btn-white" href="#pricing">See pricing</a>
-          </div>
+          <h1>Launching <span class="y">soon.</span></h1>
+          <p class="lede">Frontier-level AI models through one OpenAI-compatible API. Your prompts, outputs and inference stay in Singapore.</p>
         </div>
         <div class="offer" id="offer" aria-roledescription="carousel" aria-label="Featured models">
           <div class="slides">
@@ -287,7 +283,6 @@ footer .wrap { padding-block: 40px; display: grid; gap: 24px; }
             <div><b>$0.30</b><em> input</em></div>
             <div><b>$1.20</b><em> output</em></div>
           </div>
-          <a class="btn" href="#start">Get API access</a>
         </article>
         <article class="plan">
           <div class="plan-top">
@@ -303,7 +298,6 @@ footer .wrap { padding-block: 40px; display: grid; gap: 24px; }
             <div><b>$1.40</b><em> input</em></div>
             <div><b>$4.40</b><em> output</em></div>
           </div>
-          <a class="btn" href="#start">Get API access</a>
         </article>
       </div>
       <p class="fine">USD per 1M tokens, input / output, as at September 2026.</p>
@@ -368,34 +362,9 @@ client = OpenAI(
   <section id="start">
     <div class="wrap">
       <div class="cta-band">
-        <div>
-          <h2>Try it on your workload.</h2>
-          <p class="lede">Send us your current usage and we will price it side by side.</p>
-          <ol class="steps">
-            <li><b>1</b>Tell us what you run today and roughly how many tokens.</li>
-            <li><b>2</b>We set you up with an API key and the models you need.</li>
-            <li><b>3</b>Put real traffic through it and compare the bill.</li>
-          </ol>
-        </div>
-        <!-- Lead form: not connected to any system yet. Point it at your CRM or form handler (see README). -->
-        <form id="lead" novalidate>
-          <div class="two">
-            <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
-            <div class="field"><label for="company">Company</label><input id="company" name="company" autocomplete="organization" required></div>
-          </div>
-          <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
-          <div class="field"><label for="usage">Monthly usage</label>
-            <select id="usage" name="usage">
-              <option>Not sure yet</option>
-              <option>Under 100M tokens</option>
-              <option>100M to 1B tokens</option>
-              <option>Over 1B tokens</option>
-            </select>
-          </div>
-          <div class="field"><label for="notes">What are you building?</label><textarea id="notes" name="notes"></textarea></div>
-          <button class="btn" type="submit">Get API access</button>
-          <p class="form-fine">We reply within one business day.</p>
-        </form>
+        <span class="strip">Tuas AI Model API</span>
+        <h2>Launching <span class="y">soon.</span></h2>
+        <p class="lede">Frontier-level AI models, hosted in Singapore, at vendor pricing.</p>
       </div>
     </div>
   </section>
@@ -405,19 +374,12 @@ client = OpenAI(
   <div class="wrap">
     <div class="f-cols">
       <div><h4>Model API</h4><a href="#pricing">Pricing</a><a href="#build">Use cases</a><a href="#sovereign">Data and privacy</a></div>
-      <div><h4>Support</h4><a href="#start">Contact us</a></div>
-    </div>
-    <p class="f-base">Tuas AI Model API, hosted in Singapore. Prices in USD per 1M tokens, as at September 2026.</p>
+          </div>
+    <p class="f-base">Tuas AI Model API, hosted in Singapore. Launching soon. Prices in USD per 1M tokens, as at September 2026.</p>
   </div>
 </footer>
 
 <script>
-document.getElementById('lead').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var f = e.currentTarget;
-  if (!f.checkValidity()) { f.reportValidity(); return; }
-  f.innerHTML = '<div class="thanks"><h3>Thanks, we have your details.</h3><p>We will be in touch within one business day.</p></div>';
-});
 (function () {
   var box = document.getElementById('offer');
   var slides = box.querySelectorAll('.slide');

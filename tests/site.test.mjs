@@ -13,7 +13,7 @@ test('site renders the original landing page as server-rendered markup', async (
   assert.match(page, /dangerouslySetInnerHTML/);
   assert.match(content, /Frontier-level AI models/);
   assert.match(content, /id=\\?"pricing/);
-  assert.match(content, /id=\\?"start/);
+  assert.match(content, /Launching <span class=\\?"y\\?">soon/);
   assert.equal((content.match(/model-card/g) ?? []).length, 5);
   assert.match(content, /GLM/);
   assert.match(content, /class=\\?"model-card/);
@@ -26,7 +26,7 @@ test('site retains progressive enhancement and operational health endpoint', asy
     read('next.config.ts'),
   ]);
   assert.match(interaction, /touchstart/);
-  assert.match(interaction, /checkValidity/);
+  assert.match(interaction, /prefers-reduced-motion/);
   assert.match(route, /NextResponse/);
   assert.match(config, /standalone/);
 });
@@ -63,6 +63,18 @@ test('pricing cards subtly emphasize the hovered card and de-emphasize its sibli
   const styles = await read('app/globals.css');
   assert.match(styles, /\.plans:has\(\.plan:hover\) \.plan:not\(:hover\)/);
   assert.match(styles, /\.plan:hover/);
+});
+
+test('pre-launch page has no CTAs or lead form', async () => {
+  const [content, interaction, layout] = await Promise.all([
+    read('app/page-content.ts'),
+    read('app/site-interactions.tsx'),
+    read('app/layout.tsx'),
+  ]);
+  assert.doesNotMatch(content, /<form|href=\\?"#start|Get API access/);
+  assert.doesNotMatch(interaction, /checkValidity|getElementById\('lead'\)/);
+  assert.match(layout, /Launching soon/);
+  assert.match(layout, /fonts\.googleapis\.com\/css2\?family=Figtree/);
 });
 
 test('package scripts expose reproducible build, test and type-check gates', async () => {

@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 
 export default function SiteInteractions() {
   useEffect(() => {
-    const form = document.getElementById('lead') as HTMLFormElement | null;
     const box = document.getElementById('offer');
-    if (!form && !box) return;
+    if (!box) return;
 
-    const slides = box ? Array.from(box.querySelectorAll<HTMLElement>('.slide')) : [];
-    const dots = box ? Array.from(box.querySelectorAll<HTMLButtonElement>('.dot')) : [];
-    if (box && (slides.length === 0 || dots.length !== slides.length)) return;
+    const slides = Array.from(box.querySelectorAll<HTMLElement>('.slide'));
+    const dots = Array.from(box.querySelectorAll<HTMLButtonElement>('.dot'));
+    if (slides.length === 0 || dots.length !== slides.length) return;
 
+    const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     let index = 0;
     let timer: ReturnType<typeof setInterval> | undefined;
     let touchStartX: number | null = null;
@@ -32,7 +32,7 @@ export default function SiteInteractions() {
       timer = undefined;
     };
     const start = () => {
-      if (box && !timer) timer = setInterval(() => show(index + 1), 4500);
+      if (!still && !timer) timer = setInterval(() => show(index + 1), 4500);
     };
     const onDotClick = (event: Event) => {
       const dot = event.currentTarget as HTMLButtonElement;
@@ -53,36 +53,25 @@ export default function SiteInteractions() {
       }
       touchStartX = null;
     };
-    const onSubmit = (event: SubmitEvent) => {
-      event.preventDefault();
-      if (!form?.checkValidity()) {
-        form?.reportValidity();
-        return;
-      }
-      form.innerHTML =
-        '<div class="thanks" role="status"><h3>Thanks, we have your details.</h3><p>We will be in touch within one business day.</p></div>';
-    };
 
     dots.forEach((dot) => dot.addEventListener('click', onDotClick));
-    box?.addEventListener('mouseenter', stop);
-    box?.addEventListener('mouseleave', start);
-    box?.addEventListener('focusin', stop);
-    box?.addEventListener('focusout', start);
-    box?.addEventListener('touchstart', onTouchStart, { passive: true });
-    box?.addEventListener('touchend', onTouchEnd, { passive: true });
-    form?.addEventListener('submit', onSubmit);
+    box.addEventListener('mouseenter', stop);
+    box.addEventListener('mouseleave', start);
+    box.addEventListener('focusin', stop);
+    box.addEventListener('focusout', start);
+    box.addEventListener('touchstart', onTouchStart, { passive: true });
+    box.addEventListener('touchend', onTouchEnd, { passive: true });
     start();
 
     return () => {
       stop();
       dots.forEach((dot) => dot.removeEventListener('click', onDotClick));
-      box?.removeEventListener('mouseenter', stop);
-      box?.removeEventListener('mouseleave', start);
-      box?.removeEventListener('focusin', stop);
-      box?.removeEventListener('focusout', start);
-      box?.removeEventListener('touchstart', onTouchStart);
-      box?.removeEventListener('touchend', onTouchEnd);
-      form?.removeEventListener('submit', onSubmit);
+      box.removeEventListener('mouseenter', stop);
+      box.removeEventListener('mouseleave', start);
+      box.removeEventListener('focusin', stop);
+      box.removeEventListener('focusout', start);
+      box.removeEventListener('touchstart', onTouchStart);
+      box.removeEventListener('touchend', onTouchEnd);
     };
   }, []);
 

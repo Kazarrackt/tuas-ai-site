@@ -1,6 +1,6 @@
 # Tuas AI Model API site
 
-Next.js App Router deployment of the Tuas AI landing page. The page HTML is rendered on the server; the carousel and lead-form acknowledgement are small client-side progressive enhancements.
+Next.js App Router deployment of the Tuas AI landing page. The page is currently in pre-launch ("Launching soon") mode with no CTAs or lead form. The page HTML is rendered on the server; the carousel is a small client-side progressive enhancement.
 
 ## Runtime and local development
 
@@ -67,7 +67,7 @@ Prerequisites on the Linux host: Node.js 24.21.0 (LTS), npm, PM2 (`npm install -
    ```sh
    curl --fail http://127.0.0.1:3000/healthz
    curl --fail https://tuas.ai/healthz
-   curl --fail https://tuas.ai/ | grep -o 'Frontier-level AI models' | head -1
+   curl --fail https://tuas.ai/ | grep -o 'Launching' | head -1
    pm2 status
    ```
 
@@ -81,9 +81,9 @@ pm2 reload ecosystem.config.cjs --update-env
 
 The process manager and reverse proxy are intentionally separate: PM2 owns application workers, while Caddy owns public TLS and HTTP routing.
 
-## Important production note: lead form
+## Important production note: pre-launch mode
 
-The original page's lead form does not send or persist submissions. It validates in the browser and displays a thank-you message only. Connect it to an approved CRM/form handler before advertising it as a working contact channel. The API URL and API key in the code sample are illustrative placeholders. Verify model availability, pricing, and onshore-data claims before release.
+The page is in pre-launch mode: no buttons and no contact form. The full version with CTAs and the lead form is kept in the supplied source bundle as `_backup/index-with-ctas.html` (and in Git history before this change); its lead form never sent or persisted submissions, so connect it to an approved CRM/form handler before restoring it. The API URL and API key in the code sample are illustrative placeholders. Verify model availability, pricing, and onshore-data claims before release.
 
 ## Project structure
 
