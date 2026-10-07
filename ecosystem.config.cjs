@@ -4,7 +4,7 @@ module.exports = {
       name: 'tuas-ai-site',
       cwd: __dirname,
       script: '.next/standalone/server.js',
-      instances: 'max',
+      instances: 20,
       exec_mode: 'cluster',
       node_args: '--max-old-space-size=512',
       interpreter: process.execPath,
