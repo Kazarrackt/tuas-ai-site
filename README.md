@@ -27,7 +27,7 @@ npm run build
 npm start
 ```
 
-`npm run build` creates a Next.js standalone server and copies its static assets into `.next/standalone`, so the PM2 process can run without a separate `next start` install step. Set `SITE_URL` to the canonical public origin if it differs from `https://tuas.ai`.
+`npm run build` creates a Next.js standalone server, then its `postbuild` step (`scripts/copy-standalone-assets.mjs`) copies `.next/static` and `public/` into `.next/standalone`, so the PM2 process can run without a separate `next start` install step. Set `SITE_URL` to the canonical public origin if it differs from `https://tuas.ai`.
 
 ## Deploy with PM2 Cluster mode and Caddy
 

@@ -83,5 +83,6 @@ test('package scripts expose reproducible build, test and type-check gates', asy
   assert.equal(pkg.scripts.test, 'node --test');
   assert.equal(pkg.scripts.predev, 'node scripts/sync-page-content.mjs');
   assert.equal(pkg.scripts.prebuild, 'node scripts/sync-page-content.mjs');
+  assert.equal(pkg.scripts.postbuild, 'node scripts/copy-standalone-assets.mjs');
   assert.equal(pkg.scripts.typecheck, 'tsc --noEmit');
 });
